@@ -12,9 +12,6 @@ func Contains[T any](slice []T, fn func(elem T) bool) bool {
 
 // In 判断 obj 元素是否在 slice 中
 func In[T comparable](obj T, slice ...T) bool {
-	if len(slice) < 1 {
-		return false
-	}
 	for _, elem := range slice {
 		if elem == obj {
 			return true
