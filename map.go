@@ -1,29 +1,36 @@
 package slicekit
 
-// Map 对 slice 中的元素进行转换
-func Map[T any, R any](slice []T, fn func(elem T) R) []R {
+// Map 将 slice 中的元素转换为 map，fn 返回每个元素对应的键和值。
+//
+// 当多个元素返回相同的键时，后出现的元素会覆盖先出现的值。
+func Map[T any, K comparable, R any](slice []T, fn func(elem T) (K, R)) map[K]R {
 	var n = len(slice)
 	if n == 0 {
 		return nil
 	}
-	var ns = make([]R, n)
-	for idx, elem := range slice {
-		ns[idx] = fn(elem)
+	var m = make(map[K]R, n)
+	for _, elem := range slice {
+		var k, v = fn(elem)
+		m[k] = v
 	}
-	return ns
+	return m
 }
 
-// MapMatched 对 slice 中满足指定条件的元素进行转换
-func MapMatched[T any, R any](slice []T, predicate func(elem T) bool, fn func(elem T) R) []R {
+// MapMatched 将 slice 中满足 predicate 的元素转换为 map，fn 返回每个元素对应的键和值。
+//
+// 当多个元素返回相同的键时，后出现的元素会覆盖先出现的值。
+func MapMatched[T any, K comparable, R any](slice []T, predicate func(elem T) bool, fn func(elem T) (K, R)) map[K]R {
 	var n = len(slice)
 	if n == 0 {
 		return nil
 	}
-	var ns = make([]R, 0, n)
+	var m = make(map[K]R, n)
 	for _, elem := range slice {
-		if predicate(elem) {
-			ns = append(ns, fn(elem))
+		if !predicate(elem) {
+			continue
 		}
+		var k, v = fn(elem)
+		m[k] = v
 	}
-	return ns
+	return m
 }

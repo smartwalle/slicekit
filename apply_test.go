@@ -8,7 +8,7 @@ import (
 	"github.com/smartwalle/slicekit"
 )
 
-func TestMap(t *testing.T) {
+func TestApply(t *testing.T) {
 	var tests = []struct {
 		name     string
 		source   []int
@@ -86,7 +86,7 @@ func TestMap(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			var actual = slicekit.Map(test.source, test.fn)
+			var actual = slicekit.Apply(test.source, test.fn)
 			if !slicekit.Equals(actual, test.expected, StringEqual) {
 				t.Fatalf("实际: %+v, 预期: %+v", actual, test.expected)
 			}
@@ -94,7 +94,7 @@ func TestMap(t *testing.T) {
 	}
 }
 
-func TestMapMatched(t *testing.T) {
+func TestApplyMatched(t *testing.T) {
 	var tests = []struct {
 		name       string
 		source     []int
@@ -216,7 +216,7 @@ func TestMapMatched(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			var actual = slicekit.MapMatched(test.source, test.filterFunc, test.mapFunc)
+			var actual = slicekit.ApplyMatched(test.source, test.filterFunc, test.mapFunc)
 			if !slicekit.Equals(actual, test.expected, StringEqual) {
 				t.Fatalf("实际: %+v, 预期: %+v", actual, test.expected)
 			}
@@ -224,7 +224,7 @@ func TestMapMatched(t *testing.T) {
 	}
 }
 
-func TestMapWithIntToInt(t *testing.T) {
+func TestApplyWithIntToInt(t *testing.T) {
 	// 测试int到int的映射
 	var tests = []struct {
 		name     string
@@ -260,7 +260,7 @@ func TestMapWithIntToInt(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			var actual = slicekit.Map(test.source, test.fn)
+			var actual = slicekit.Apply(test.source, test.fn)
 			if !slicekit.Equals(actual, test.expected, IntEqual) {
 				t.Fatalf("实际: %+v, 预期: %+v", actual, test.expected)
 			}
@@ -268,7 +268,7 @@ func TestMapWithIntToInt(t *testing.T) {
 	}
 }
 
-func TestMapWithStructs(t *testing.T) {
+func TestApplyWithStructs(t *testing.T) {
 	// 测试自定义结构体类型的Map
 	type Person struct {
 		Name string
@@ -330,7 +330,7 @@ func TestMapWithStructs(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			var actual = slicekit.Map(test.source, test.fn)
+			var actual = slicekit.Apply(test.source, test.fn)
 			if !slicekit.Equals(actual, test.expected, StringEqual) {
 				t.Fatalf("实际: %+v, 预期: %+v", actual, test.expected)
 			}
@@ -338,7 +338,7 @@ func TestMapWithStructs(t *testing.T) {
 	}
 }
 
-func TestMapMatchedWithStructs(t *testing.T) {
+func TestApplyMatchedWithStructs(t *testing.T) {
 	// 测试自定义结构体类型的MapMatched
 	type Person struct {
 		Name string
@@ -399,7 +399,7 @@ func TestMapMatchedWithStructs(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			var actual = slicekit.MapMatched(test.source, test.predicate, test.mapFunc)
+			var actual = slicekit.ApplyMatched(test.source, test.predicate, test.mapFunc)
 			if !slicekit.Equals(actual, test.expected, StringEqual) {
 				t.Fatalf("实际: %+v, 预期: %+v", actual, test.expected)
 			}
